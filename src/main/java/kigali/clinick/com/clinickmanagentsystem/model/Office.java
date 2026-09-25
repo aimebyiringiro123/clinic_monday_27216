@@ -12,7 +12,9 @@ public class Office {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String roomNumber;
+    @Column(name = "office_number")
+    private int officeNumber;
+    private String name;
     private String location;
 
 }

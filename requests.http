@@ -1,0 +1,38 @@
+
+###
+POST http://localhost:8082/api/office/save
+Content-Type: application/json
+
+{
+ "name": "web-101",
+ "officeNumber": 101,
+  "location": "kigali"
+}
+
+
+###
+POST http://localhost:8082/api/patient/save
+Content-Type: application/json
+
+{
+  "name": "junior",
+  "email": "junior@gmail.com",
+  "phone": "0781234567"
+}
+
+###
+DELETE http://localhost:8082/api/office/2
+
+
+###
+DELETE http://localhost:8082/api/patient/1
+
+
+###
+GET http://localhost:8082/api/office
+
+###
+GET http://localhost:8082/api/patient
+
+
+
