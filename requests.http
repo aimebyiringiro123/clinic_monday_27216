@@ -285,43 +285,45 @@ Content-Type: application/json
 ############################################################
 # PART B — JPQL with joins
 
-
 ### B1
-GET {{baseUrl}}/api/doctors/by-specialization?name=cardiology
+GET http://localhost:8082/api/doctors/by-specialization?name=cardiology
 
-### B2 Doctors without an office (IS NULL)
-GET {{baseUrl}}/api/doctors/without-office
+### B2
+GET http://localhost:8082/api/doctors/without-office
 
-### B3 Specializations nobody offers (IS EMPTY) — expect Neurology
-GET {{baseUrl}}/api/specializations/unused
+### B3
+GET http://localhost:8082/api/specializations/unused
 
-### B4 Patients of a doctor (DISTINCT) — 404 if doctor id is fake
-GET {{baseUrl}}/api/patients/of-doctor/{{doctor1}}
+### B4
+GET http://localhost:8082/api/patients/of-doctor/{{doctor1}}
 
-### B4 missing doctor — expect 404
+### B4
 GET http://localhost:8082/api/patients/of-doctor/00000000-0000-0000-0000-000000000000
+
+
+
 
 
 ############################################################
 # PART C — aggregates and bulk  (run C4 last)
-############################################################
 
-### C1 Appointments per status (GROUP BY, COUNT)
+### C1
 GET http://localhost:8082/api/appointments/stats/by-status
 
-### C2 Frequent patients (HAVING COUNT >= min)
+### C2
 GET http://localhost:8082/api/patients/frequent?min=3
 
-### C3 Busiest office (3-way JOIN)
+### C3
 GET http://localhost:8082/api/offices/busiest
 
-### C4 Doctor is absent — cancels that day except COMPLETED
+### C4
 PATCH http://localhost:8082/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20
+
+
 
 
 ############################################################
 # BONUS  (run after A–C work)
-############################################################
 
 ### Page appointments
 GET http://localhost:8082/api/appointments/page?page=0&size=5&sort=appointmentDate,desc
