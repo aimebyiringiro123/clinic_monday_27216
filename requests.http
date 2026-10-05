@@ -1,38 +1,330 @@
 
-###
+#---------------- offices ------------------
+############################################################
+
+### Office 101
+POST http://localhost:8082//api/office/save
+Content-Type: application/json
+
+{
+  "name": "STAFF-101",
+  "officeNumber": 101,
+  "location": "first floor"
+}
+### Office 102
 POST http://localhost:8082/api/office/save
 Content-Type: application/json
 
 {
- "name": "web-101",
- "officeNumber": 101,
-  "location": "kigali"
+  "name": "STAFF-102",
+  "officeNumber": 102,
+  "location": "second floor"
 }
-
-
-###
-POST http://localhost:8082/api/patient/save
+### Office 103
+POST http://localhost:8082/api/office/save
 Content-Type: application/json
 
 {
-  "name": "junior",
-  "email": "junior@gmail.com",
-  "phone": "0781234567"
+  "name": "STAFF-103",
+  "officeNumber": 103,
+  "location": "third floor"
+}
+### List offices
+GET http://localhost:8082/api/office/get
+### delete office by id
+DELETE  http://localhost:8082/api/office/2f92d1c7-4e0e-4380-8b71-
+### update office by id
+PUT http://localhost:8082/api/office/3b088660-9dae-43ae-829b-74c45acc9297
+Content-Type: application/json
+
+{
+  "name": "STAFF-103",
+  "officeNumber": 103,
+  "location": "Third floor"
 }
 
-###
-DELETE http://localhost:8082/api/office/2
-
-
-###
-DELETE http://localhost:8082/api/patient/1
-
-
-###
-GET http://localhost:8082/api/office
-
-###
-GET http://localhost:8082/api/patient
 
 
 
+
+
+
+
+
+###########################################################
+# ---------— specializations (keep Neurology unused)-----------
+
+### Cardiology
+POST http://localhost:8082/api/specializations/save
+Content-Type: application/json
+
+{
+  "name": "Cardiology"
+}
+### Pediatrics
+POST http://localhost:8082/api/specializations/save
+Content-Type: application/json
+
+{
+  "name": "Pediatrics"
+}
+### Dermatology
+POST http://localhost:8082/api/specializations/save
+Content-Type: application/json
+
+{
+  "name": "Dermatology"
+}
+### Neurology (nobody will hold this)
+POST http://localhost:8082/api/specializations/save
+Content-Type: application/json
+
+{
+  "name": "Neurology"
+}
+
+### List specializations (copy ids into @cardioId @pediaId @dermaId @neuroId)
+GET http://localhost:8082/api/specializations/get
+
+
+############################################################
+# -------— patients-------------------
+
+
+### Patient 1 Aline Uwase
+POST http://localhost:8082/api/patients/save
+Content-Type: application/json
+
+{
+  "firstName": "Aline",
+  "lastName": "Uwase",
+  "dateOfBirth": "1998-03-12",
+  "ssNumber": "P001"
+}
+### Patient 2 Diane Uwase
+POST http://localhost:8082/api/patients/save
+Content-Type: application/json
+
+{
+  "firstName": "Diane",
+  "lastName": "Uwase",
+  "dateOfBirth": "2001-07-21",
+  "ssNumber": "P002"
+}
+### Patient 3
+POST http://localhost:8082/api/patients/save
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Mugisha",
+  "dateOfBirth": "1995-01-02",
+  "ssNumber": "P003"
+}
+### Patient 4
+POST http://localhost:8082/api/patients/save
+Content-Type: application/json
+
+{
+  "firstName": "Claudine",
+  "lastName": "Niyonsaba",
+  "dateOfBirth": "1990-11-30",
+  "ssNumber": "P004"
+}
+### List all patients
+GET http://localhost:8082/api/patients/get
+
+
+############################################################
+# -------------— doctors -----------
+### Doctor 1
+POST http://localhost:8082/api/doctors/save
+Content-Type: application/json
+
+{
+  "firstName": "Joshua",
+  "lastName": "Iradukunda",
+  "dateOfBirth": "1980-09-13",
+  "office": {
+    "officeNumber": 101
+  }
+}
+### Doctor 2
+POST http://localhost:8082/api/doctors/save
+Content-Type: application/json
+
+{
+  "firstName": "Alice",
+  "lastName": "Mukamana",
+  "dateOfBirth": "1982-02-02",
+  "office": {
+    "officeNumber": 102
+  }
+}
+### Doctor 3
+POST http://localhost:8082/api/doctors/save
+Content-Type: application/json
+
+{
+  "firstName": "Patrick",
+  "lastName": "Nkurunziza",
+  "dateOfBirth": "1979-12-01"
+}
+
+
+### List doctors
+GET http://localhost:8082/api/doctors/get
+
+
+
+############################################################
+
+### 1.
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-05",
+  "reason": "Checkup",
+  "status": "SCHEDULED",
+  "patient": { "id": "{{patient1}}" },
+  "doctor": { "id": "{{doctor1}}" }
+}
+
+### 2
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-20",
+  "reason": "Follow-up",
+  "status": "CONFIRMED",
+  "patient": { "id": "{{patient1}}" },
+  "doctor": { "id": "{{doctor1}}" }
+}
+
+### 3.
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-21",
+  "reason": "Will move to Oct 20",
+  "status": "SCHEDULED",
+  "patient": { "id": "{{patient2}}" },
+  "doctor": { "id": "{{doctor1}}" }
+}
+### 4.
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-12",
+  "reason": "Skin check",
+  "status": "COMPLETED",
+  "patient": { "id": "{{patient1}}" },
+  "doctor": { "id": "{{doctor2}}" }
+}
+### 5.
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-18",
+  "reason": "Cancelled visit",
+  "status": "CANCELLED",
+  "patient": { "id": "{{patient3}}" },
+  "doctor": { "id": "{{doctor2}}" }
+}
+### 6. patient4 + doctor3  2026-10-25 CONFIRMED
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-25",
+  "reason": "Heart review",
+  "status": "CONFIRMED",
+  "patient": { "id": "{{patient4}}" },
+  "doctor": { "id": "{{doctor3}}" }
+}
+### List appointments
+GET http://localhost:8082/api/appointments/get
+
+
+
+
+
+
+
+############################################################
+# PART A — derived queries
+
+
+### A1
+GET http://localhost:8082/api/patients/by-last-name?lastName=uwase
+
+### A2
+GET http://localhost:8082/api/appointments/by-status?status=SCHEDULED
+
+### A3
+GET http://localhost:8082/api/appointments/between?start=2026-10-01&end=2026-10-31
+
+### A4
+POST http://localhost:8082/api/appointments/save
+Content-Type: application/json
+
+{
+  "appointmentDate": "2026-10-20",
+  "reason": "Should conflict",
+  "status": "SCHEDULED",
+  "patient": { "id": "{{patient5}}" },
+  "doctor": { "id": "{{doctor1}}" }
+}
+
+
+############################################################
+# PART B — JPQL with joins
+
+
+### B1
+GET {{baseUrl}}/api/doctors/by-specialization?name=cardiology
+
+### B2 Doctors without an office (IS NULL)
+GET {{baseUrl}}/api/doctors/without-office
+
+### B3 Specializations nobody offers (IS EMPTY) — expect Neurology
+GET {{baseUrl}}/api/specializations/unused
+
+### B4 Patients of a doctor (DISTINCT) — 404 if doctor id is fake
+GET {{baseUrl}}/api/patients/of-doctor/{{doctor1}}
+
+### B4 missing doctor — expect 404
+GET http://localhost:8082/api/patients/of-doctor/00000000-0000-0000-0000-000000000000
+
+
+############################################################
+# PART C — aggregates and bulk  (run C4 last)
+############################################################
+
+### C1 Appointments per status (GROUP BY, COUNT)
+GET http://localhost:8082/api/appointments/stats/by-status
+
+### C2 Frequent patients (HAVING COUNT >= min)
+GET http://localhost:8082/api/patients/frequent?min=3
+
+### C3 Busiest office (3-way JOIN)
+GET http://localhost:8082/api/offices/busiest
+
+### C4 Doctor is absent — cancels that day except COMPLETED
+PATCH http://localhost:8082/api/appointments/cancel-day?doctorId={{doctor1}}&date=2026-10-20
+
+
+############################################################
+# BONUS  (run after A–C work)
+############################################################
+
+### Page appointments
+GET http://localhost:8082/api/appointments/page?page=0&size=5&sort=appointmentDate,desc
+
+### Delete old cancellations
+DELETE http://localhost:8082/api/appointments/cancelled-before?date=2026-10-19

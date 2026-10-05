@@ -1,23 +1,26 @@
 package kigali.clinick.com.clinickmanagentsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table(name = "specializations")
+@Table(name = "specialization")
 @Data
 public class Specialization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
+    @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "specialization")
-    private List<DoctorSpecialization> doctorSpecializations = new ArrayList<>();
-
+    @ManyToMany(mappedBy = "specializations")
+    @JsonIgnore
+    private List<Doctor> doctors = new ArrayList<>();
 }
