@@ -9,13 +9,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "appointment")
 @Data
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "appointment_date")
@@ -30,15 +29,10 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonIgnoreProperties({"id", "dateOfBirth", "appointments", "ssNumber"})
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    @JsonIgnoreProperties({"id", "dateOfBirth", "office", "appointments", "specializations"})
     private Doctor doctor;
 
-    public enum AppointmentStatus {
-        SCHEDULED, CONFIRMED, COMPLETED, CANCELLED
-    }
 }

@@ -11,62 +11,45 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = {"/api/office", "/api/offices"})
+@RequestMapping(value = "/api/offices")
 public class OfficeController {
+    private final OfficeService officeService;
 
-    private final OfficeService officeServes;
-
-    public OfficeController(OfficeService officeServes) {
-        this.officeServes = officeServes;
+    public OfficeController(OfficeService officeService) {
+        this.officeService = officeService;
     }
 
-    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveOffice(@RequestBody Office office) {
-        String returnedMessage = officeServes.saveOffice(office);
 
-        if (returnedMessage.equalsIgnoreCase("Office is saved Successfully")) {
-            return new ResponseEntity<>(returnedMessage, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(returnedMessage, HttpStatus.CONFLICT);
-        }
-    }
-/*
-    @GetMapping("/busiest")
-    public Object busiest() {
-        return officeServes.getBusiestOffice();
+    @PostMapping(value = "/save")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Office create(@RequestBody Office office) {
+        return officeService.create(office);
     }
 
- */
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> d(@PathVariable UUID id) {
-        try {
-            officeServes.deleteOffice(id);
-            return new ResponseEntity<>("Office deleted successfully", HttpStatus.OK);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    @GetMapping(value = "/getAll")
+    public List<Office> findAll() {
+        return officeService.findAll();
     }
 
-    @GetMapping(value = "/get")
-    public List<Office> getOffice() {
-        return officeServes.getAllOffice();
+    @GetMapping("/{id}")
+    public Office findById(@PathVariable Long id) {
+        return officeService.findById(id);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateOffice(@PathVariable UUID id, @RequestBody Office office) {
-        try {
-            String message = officeServes.updateOffice(id, office);
+    @PutMapping("/{id}")
+    public Office update(@PathVariable Long id, @RequestBody Office office) {
+        return officeService.update(id, office);
+    }
 
-            if (message.equalsIgnoreCase("office updated successfully!")) {
-                return new ResponseEntity<>(message, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(message, HttpStatus.CONFLICT);
-            }
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        officeService.delete(id);
+    }
+
+    // A1
+    @GetMapping("/by-name")
+    public List<Office> byOfficeNumber(@RequestParam String name) {
+        return officeService.findByOfficeName(name);
     }
 }

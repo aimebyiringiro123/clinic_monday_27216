@@ -1,24 +1,26 @@
 package kigali.clinick.com.clinickmanagentsystem.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-
 @Entity
-@Table (name="patient")
-@Data
+@Getter
+@Setter
 public class Patient {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column (name="first_name")
     private String firstName;
@@ -26,14 +28,7 @@ public class Patient {
     @Column (name="last_name")
     private String lastName;
 
-    @Column (name = "social_security_number", unique = true)
-    private String ssNumber;
-
-    @Column (name="date_of_birth")
-    private Date dateOfBirth;
-
-    @OneToMany (mappedBy = "patient")
     @JsonIgnore
+    @OneToMany (mappedBy = "patient")
     private List<Appointment> appointments = new ArrayList<>();
-
 }

@@ -10,10 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface SpecializationRepository extends JpaRepository<Specialization, UUID> {
+public interface SpecializationRepository extends JpaRepository<Specialization, Long> {
 
-    Optional<Specialization> findByNameIgnoreCase(String name);
-
+    // B3
     @Query("SELECT s FROM Specialization s WHERE s.doctors IS EMPTY")
     List<Specialization> findUnused();
+
 }

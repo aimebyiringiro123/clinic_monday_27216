@@ -1,9 +1,12 @@
 package kigali.clinick.com.clinickmanagentsystem.services;
 
 import kigali.clinick.com.clinickmanagentsystem.model.Patient;
+import kigali.clinick.com.clinickmanagentsystem.repository.DoctorRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,54 +14,57 @@ import java.util.UUID;
 @Service
 public class PatientService {
 
-    @Autowired
-    private PatientRepository patientRepo;
+    private final PatientRepository patientRepo;
+    private final DoctorRepository doctorRepo;
 
-    public Patient savePatient(Patient patient) {
-        if (patientRepo.existsBySsNumber(patient.getSsNumber())) {
-            throw new IllegalStateException("ssNUmber already exists");
-        }
+    public PatientService(PatientRepository patientRepo, DoctorRepository doctorRepo) {
+        this.patientRepo = patientRepo;
+        this.doctorRepo = doctorRepo;
+    }
+
+
+    //========================= CRUD operation =================
+
+    public Patient create(Patient patient) {
+        patient.setId(null);
         return patientRepo.save(patient);
     }
 
-    public void deletePatient(UUID id) {
-        if (!patientRepo.existsById(id)) {
-            throw new IllegalStateException("patient with id: " + id + " does not exist");
-        }
-        patientRepo.deleteById(id);
-    }
-
-    public List<Patient> getAllPatient() {
+    public List<Patient> findAll() {
         return patientRepo.findAll();
     }
 
+    public Patient findById(Long id) {
+        return patientRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Patient not found"));
+    }
+    public Patient update(Long id, Patient data) {
+        Patient existing = findById(id);     // 404 if missing
+        existing.setFirstName(data.getFirstName());
+        existing.setLastName(data.getLastName());
+        return patientRepo.save(existing);
+    }
+
+    public void delete(Long id) {
+        findById(id);
+        patientRepo.deleteById(id);
+    }
+
+    // A1
     public List<Patient> findByLastName(String lastName) {
         return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
 
-    public List<Patient> findPatientsOfDoctor(UUID doctorId) {
-        return patientRepo.findDistinctPatientsOfDoctor(doctorId);
+    public List<Patient> findPatientsOfDoctor(Long doctorId) {
+        if (!doctorRepo.existsById(doctorId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "The doctor with that id does not exist");
+        }
+        return patientRepo.findPatientsOfDoctor(doctorId);
     }
 
-    public List<Patient> findFrequentPatients(long min) {
+    public List<Patient> findFrequent(long min) {
         return patientRepo.findFrequentPatients(min);
-    }
-
-    public String updatePatient(UUID id, Patient updatedPatient) {
-        Patient existing = patientRepo.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Patient with id: " + id + " does not exist"));
-
-        existing.setFirstName(updatedPatient.getFirstName());
-        existing.setLastName(updatedPatient.getLastName());
-        existing.setDateOfBirth(updatedPatient.getDateOfBirth());
-
-        patientRepo.save(existing);
-
-        return "Patient updated successfully!";
-    }
-
-    public Patient getPatientById(UUID id) {
-        return patientRepo.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Patient with id " + id + " does not exist"));
     }
 }

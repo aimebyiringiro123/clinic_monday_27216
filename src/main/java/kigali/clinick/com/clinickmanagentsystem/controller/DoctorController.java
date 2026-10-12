@@ -14,72 +14,52 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value = "/api/doctors")
 public class DoctorController {
-
     private final DoctorService doctorService;
 
     public DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;
     }
 
-    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveDoctor(@Valid @RequestBody Doctor doctor) {
-        try {
-            Doctor saved = doctorService.saveDoctor(doctor);
-            return new ResponseEntity<>(saved, HttpStatus.CREATED);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+    @PostMapping(value = "/save")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Doctor create(@RequestBody Doctor doctor) {
+        return doctorService.create(doctor);
     }
 
-    @PostMapping("/{doctorId}/specializations/{specializationId}")
-    public ResponseEntity<?> assignSpecialization(@PathVariable UUID doctorId,
-                                                 @PathVariable UUID specializationId) {
-        try {
-            return ResponseEntity.ok(doctorService.assignSpecialization(doctorId, specializationId));
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    @GetMapping(value = "/getAll")
+    public List<Doctor> findAll() {
+        return doctorService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Doctor findById(@PathVariable Long id) {
+        return doctorService.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Doctor update(@PathVariable Long id, @RequestBody Doctor doctor) {
+        return doctorService.update(id, doctor);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        doctorService.delete(id);
+    }
+
+    // A1
+    @GetMapping("/by-last-name")
+    public List<Doctor> byLastName(@RequestParam String lastName) {
+        return doctorService.findByLastName(lastName);
     }
 
     @GetMapping("/by-specialization")
     public List<Doctor> bySpecialization(@RequestParam String name) {
-        return doctorService.findBySpecializationName(name);
+        return doctorService.findBySpecialization(name);
     }
 
     @GetMapping("/without-office")
     public List<Doctor> withoutOffice() {
         return doctorService.findWithoutOffice();
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteDoctor(@PathVariable UUID id) {
-        try {
-            doctorService.deleteDoctor(id);
-            return new ResponseEntity<>("doctor deleted successfully", HttpStatus.OK);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping(value = "/get")
-    public List<Doctor> getAll() {
-        return doctorService.getAllDoctor();
-    }
-
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateDoctor(@PathVariable UUID id, @RequestBody Doctor doctor) {
-        try {
-            String message = doctorService.updateDoctor(id, doctor);
-
-            if (message.equalsIgnoreCase("doctor updated successfully!")) {
-                return new ResponseEntity<>(message, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(message, HttpStatus.CONFLICT);
-            }
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 }

@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient, UUID> {
-
-    boolean existsBySsNumber(String ssNumber);
+public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
-    @Query("SELECT DISTINCT a.patient FROM Appointment a WHERE a.doctor.id = :doctorId")
-    List<Patient> findDistinctPatientsOfDoctor(@Param("doctorId") UUID doctorId);
+    // B4
+    @Query("SELECT DISTINCT p FROM Patient p JOIN p.appointments a WHERE a.doctor.id = :doctorId")
+    List<Patient> findPatientsOfDoctor(@Param("doctorId") Long doctorId);
 
-    @Query("SELECT p FROM Appointment a JOIN a.patient p GROUP BY p HAVING COUNT(a) >= :min ORDER BY COUNT(a) DESC")
+    @Query("SELECT p FROM Patient p JOIN p.appointments a " +
+            "GROUP BY p HAVING COUNT(a) >= :min ORDER BY COUNT(a) DESC")
     List<Patient> findFrequentPatients(@Param("min") long min);
 }

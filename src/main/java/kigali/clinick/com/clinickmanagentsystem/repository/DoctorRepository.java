@@ -13,18 +13,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
+public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-    boolean existsByFirstNameAndLastNameAndDateOfBirthAndOffice(
-            String firstName, String lastName, Date dateOfBirth, Office office);
+    List<Doctor> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
-    Optional<Doctor> findByOffice(Office office);
+    // B1
+    @Query("SELECT d FROM Doctor d JOIN d.specializations s WHERE LOWER(s.name) = LOWER(:name)")
+    List<Doctor> findDoctorsBySpecialization(@Param("name") String name);
 
-    List<Doctor> findByFirstNameContainingIgnoreCase(String search);
-
-    @Query("SELECT DISTINCT d FROM Doctor d JOIN d.specializations s WHERE LOWER(s.name) = LOWER(:name)")
-    List<Doctor> findBySpecializationName(@Param("name") String name);
-
+    // B2
     @Query("SELECT d FROM Doctor d WHERE d.office IS NULL ORDER BY d.lastName")
     List<Doctor> findDoctorsWithoutOffice();
 }

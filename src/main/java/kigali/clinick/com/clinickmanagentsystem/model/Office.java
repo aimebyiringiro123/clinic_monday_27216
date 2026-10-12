@@ -1,20 +1,16 @@
 package kigali.clinick.com.clinickmanagentsystem.model;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.UUID;
-
-
 @Entity
-@Table (name="office")
 @Data
 public class Office {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
 
 
     @Column (name="name")
@@ -26,9 +22,10 @@ public class Office {
     @Column (name="location")
     private String location;
 
-    @OneToOne (mappedBy = "office")
     @JsonIgnore
+    @OneToOne (mappedBy = "office")
     private Doctor doctor;
+
 
 
 }
