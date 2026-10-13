@@ -1,0 +1,7 @@
+### ========= C3 ============
+$kind: http-request
+name: http://localhost:8082/api/prescriptions/patient/1001
+description: ""
+url: http://localhost:8082/api/prescriptions/patient/1001
+method: GET
+order: 10000
