@@ -1,15 +1,13 @@
 package kigali.clinick.com.clinickmanagentsystem.services;
 
-import kigali.clinick.com.clinickmanagentsystem.model.Office;
+
 import kigali.clinick.com.clinickmanagentsystem.model.Specialization;
 import kigali.clinick.com.clinickmanagentsystem.repository.SpecializationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 public class SpecializationService {
@@ -21,7 +19,7 @@ public class SpecializationService {
     }
 
     public Specialization create(Specialization specialization) {
-        specialization.setId(null);                      // force a NEW row
+        specialization.setId(null);
         return specializationRepo.save(specialization);
     }
 
@@ -36,13 +34,13 @@ public class SpecializationService {
                         HttpStatus.NOT_FOUND, "Specialization not found"));
     }
     public Specialization update(Long id, Specialization data) {
-        Specialization existing = findById(id);          // 404 if missing
+        Specialization existing = findById(id);
         existing.setName(data.getName());
         return specializationRepo.save(existing);
     }
 
     public void delete(Long id) {
-        findById(id);                                    // 404 if missing
+        findById(id);
         specializationRepo.deleteById(id);
     }
 

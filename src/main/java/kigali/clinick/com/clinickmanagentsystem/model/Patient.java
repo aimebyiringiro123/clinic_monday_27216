@@ -3,15 +3,13 @@ package kigali.clinick.com.clinickmanagentsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
-import java.util.UUID;
+
 
 @Entity
 @Getter

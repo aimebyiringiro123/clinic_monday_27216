@@ -3,13 +3,13 @@ package kigali.clinick.com.clinickmanagentsystem.services;
 import kigali.clinick.com.clinickmanagentsystem.model.Patient;
 import kigali.clinick.com.clinickmanagentsystem.repository.DoctorRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.PatientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 public class PatientService {
@@ -23,7 +23,6 @@ public class PatientService {
     }
 
 
-    //========================= CRUD operation =================
 
     public Patient create(Patient patient) {
         patient.setId(null);
@@ -40,7 +39,7 @@ public class PatientService {
                         HttpStatus.NOT_FOUND, "Patient not found"));
     }
     public Patient update(Long id, Patient data) {
-        Patient existing = findById(id);     // 404 if missing
+        Patient existing = findById(id);
         existing.setFirstName(data.getFirstName());
         existing.setLastName(data.getLastName());
         return patientRepo.save(existing);

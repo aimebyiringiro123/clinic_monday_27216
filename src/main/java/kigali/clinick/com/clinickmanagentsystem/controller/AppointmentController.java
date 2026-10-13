@@ -66,7 +66,7 @@ public class AppointmentController {
     @GetMapping("/between")
     public List<Appointment> between(@RequestParam String start, @RequestParam String end) {
         try {
-            LocalDate startDate = LocalDate.parse(start);   // "2026-10-01" becomes a LocalDate
+            LocalDate startDate = LocalDate.parse(start);
             LocalDate endDate = LocalDate.parse(end);
             return appointmentService.findBetween(startDate, endDate);
         } catch (DateTimeParseException e) {

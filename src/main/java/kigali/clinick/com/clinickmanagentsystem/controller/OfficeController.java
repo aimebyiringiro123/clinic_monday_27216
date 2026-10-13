@@ -3,12 +3,11 @@ package kigali.clinick.com.clinickmanagentsystem.controller;
 import kigali.clinick.com.clinickmanagentsystem.model.Office;
 import kigali.clinick.com.clinickmanagentsystem.services.OfficeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping(value = "/api/offices")

@@ -10,10 +10,9 @@ import kigali.clinick.com.clinickmanagentsystem.repository.SpecializationReposit
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Service
 public class DoctorService {
@@ -63,7 +62,7 @@ public class DoctorService {
     }
 
     public List<Doctor> findBySpecialization(String name) {
-        return doctorRepo.findDoctorsBySpecialization(name);   // calls the repository method
+        return doctorRepo.findDoctorsBySpecialization(name);
     }
 
     public List<Doctor> findWithoutOffice() {
@@ -136,7 +135,7 @@ public class DoctorService {
         }
 
         Doctor doctor = doctorOpt.get();
-        doctor.setOffice(officeOpt.get());     // Doctor owns the @JoinColumn
+        doctor.setOffice(officeOpt.get());
         doctorRepo.save(doctor);
         return "Office changed successfully";
     }

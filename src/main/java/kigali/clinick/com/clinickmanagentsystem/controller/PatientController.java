@@ -1,15 +1,14 @@
 package kigali.clinick.com.clinickmanagentsystem.controller;
 
 import kigali.clinick.com.clinickmanagentsystem.model.Patient;
-import kigali.clinick.com.clinickmanagentsystem.services.DoctorService;
+
 import kigali.clinick.com.clinickmanagentsystem.services.PatientService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping(value = "/api/patients")

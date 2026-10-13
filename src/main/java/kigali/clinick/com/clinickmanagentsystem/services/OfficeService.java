@@ -2,14 +2,12 @@ package kigali.clinick.com.clinickmanagentsystem.services;
 
 import kigali.clinick.com.clinickmanagentsystem.model.Office;
 import kigali.clinick.com.clinickmanagentsystem.repository.OfficeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
 @Service
 public class OfficeService {
 
@@ -37,7 +35,7 @@ public class OfficeService {
                         HttpStatus.NOT_FOUND, "office not found"));
     }
     public Office update(Long id, Office data) {
-        Office existing = findById(id);     // 404 if missing
+        Office existing = findById(id);
         existing.setName(data.getName());
         existing.setOfficeNumber(data.getOfficeNumber());
         existing.setLocation(data.getLocation());
