@@ -1,6 +1,7 @@
 package kigali.clinick.com.clinickmanagentsystem.controller;
 
 
+import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
 import kigali.clinick.com.clinickmanagentsystem.model.Doctor;
 import kigali.clinick.com.clinickmanagentsystem.services.DoctorService;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -109,5 +112,23 @@ public class DoctorController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         }
         return ResponseEntity.ok(message);
+    }
+
+
+    @GetMapping("/{doctorId}/agenda")
+    public ResponseEntity<?> agenda(@PathVariable Long doctorId,
+                                    @RequestParam LocalDate date) {
+        Optional<List<Appointment>> result = doctorService.agenda(doctorId, date);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The doctor with that id does not exist");
+        }
+        return ResponseEntity.ok(result.get());
+    }
+
+    @GetMapping("/search")
+    public List<Doctor> search(@RequestParam String name) {
+        return doctorService.search(name);
     }
 }

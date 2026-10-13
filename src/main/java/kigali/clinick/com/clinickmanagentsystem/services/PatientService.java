@@ -1,6 +1,9 @@
 package kigali.clinick.com.clinickmanagentsystem.services;
 
+import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
+import kigali.clinick.com.clinickmanagentsystem.model.AppointmentStatus;
 import kigali.clinick.com.clinickmanagentsystem.model.Patient;
+import kigali.clinick.com.clinickmanagentsystem.repository.AppointmentRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.DoctorRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.PatientRepository;
 
@@ -8,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -16,12 +21,13 @@ public class PatientService {
 
     private final PatientRepository patientRepo;
     private final DoctorRepository doctorRepo;
+    private final AppointmentRepository appointmentRepo;
 
-    public PatientService(PatientRepository patientRepo, DoctorRepository doctorRepo) {
+    public PatientService(PatientRepository patientRepo, DoctorRepository doctorRepo, AppointmentRepository appointmentRepo) {
         this.patientRepo = patientRepo;
         this.doctorRepo = doctorRepo;
+        this.appointmentRepo = appointmentRepo;
     }
-
 
 
     public Patient create(Patient patient) {
@@ -65,5 +71,16 @@ public class PatientService {
 
     public List<Patient> findFrequent(long min) {
         return patientRepo.findFrequentPatients(min);
+    }
+
+    public Optional<List<Appointment>> upcoming(String ssNumber) {
+        if (!patientRepo.existsBySsNumber(ssNumber)) {
+            return Optional.empty();
+        }
+        return Optional.of(appointmentRepo
+                .findByPatientSsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(
+                        ssNumber,
+                        LocalDate.now(),
+                        List.of(AppointmentStatus.SCHEDULED, AppointmentStatus.CONFIRMED)));
     }
 }

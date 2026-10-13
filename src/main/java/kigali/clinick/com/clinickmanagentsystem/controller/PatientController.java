@@ -1,13 +1,16 @@
 package kigali.clinick.com.clinickmanagentsystem.controller;
 
+import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
 import kigali.clinick.com.clinickmanagentsystem.model.Patient;
 
 import kigali.clinick.com.clinickmanagentsystem.services.PatientService;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -60,5 +63,17 @@ public class PatientController {
     @GetMapping("/frequent")
     public List<Patient> frequent(@RequestParam long min) {
         return patientService.findFrequent(min);
+    }
+
+
+    @GetMapping("/{ssNumber}/upcoming")
+    public ResponseEntity<?> upcoming(@PathVariable String ssNumber) {
+        Optional<List<Appointment>> result = patientService.upcoming(ssNumber);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("That patient with that ssnumber does not exist");
+        }
+        return ResponseEntity.ok(result.get());
     }
 }

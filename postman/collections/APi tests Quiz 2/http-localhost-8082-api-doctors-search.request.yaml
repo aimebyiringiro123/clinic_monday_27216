@@ -1,0 +1,10 @@
+###======== D3 ==============
+
+$kind: http-request
+name: http://localhost:8082/api/doctors/search
+description: ""
+url: http://localhost:8082/api/doctors/search?name=gis
+method: GET
+queryParams:
+  name: gis
+order: 14000

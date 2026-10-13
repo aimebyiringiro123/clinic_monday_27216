@@ -1,0 +1,7 @@
+###============= D4 ===============
+$kind: http-request
+name: http://localhost:8082/api/dashboard/summary
+description: ""
+url: http://localhost:8082/api/dashboard/summary
+method: GET
+order: 15000

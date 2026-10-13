@@ -1,15 +1,16 @@
 package kigali.clinick.com.clinickmanagentsystem.services;
 
 import jakarta.transaction.Transactional;
-import kigali.clinick.com.clinickmanagentsystem.model.Doctor;
-import kigali.clinick.com.clinickmanagentsystem.model.Office;
-import kigali.clinick.com.clinickmanagentsystem.model.Specialization;
+import kigali.clinick.com.clinickmanagentsystem.model.*;
+import kigali.clinick.com.clinickmanagentsystem.repository.AppointmentRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.DoctorRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.OfficeRepository;
 import kigali.clinick.com.clinickmanagentsystem.repository.SpecializationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +21,13 @@ public class DoctorService {
     private final DoctorRepository doctorRepo;
     private final SpecializationRepository specializationRepo;
     private final OfficeRepository officeRepo;
+    private final AppointmentRepository appointmentRepo;
 
-    public DoctorService(DoctorRepository doctorRepo, SpecializationRepository specializationRepo, OfficeRepository officeRepo) {
+    public DoctorService(DoctorRepository doctorRepo, SpecializationRepository specializationRepo, OfficeRepository officeRepo, AppointmentRepository appointmentRepo) {
         this.doctorRepo = doctorRepo;
         this.specializationRepo = specializationRepo;
         this.officeRepo = officeRepo;
+        this.appointmentRepo = appointmentRepo;
     }
 
 
@@ -138,5 +141,17 @@ public class DoctorService {
         doctor.setOffice(officeOpt.get());
         doctorRepo.save(doctor);
         return "Office changed successfully";
+    }
+
+    public Optional<List<Appointment>> agenda(Long doctorId, LocalDate date) {
+        if (!doctorRepo.existsById(doctorId)) {
+            return Optional.empty();
+        }
+        return Optional.of(appointmentRepo.findByDoctorIdAndAppointmentDateAndStatusNot(
+                doctorId, date, AppointmentStatus.CANCELLED));
+    }
+
+    public List<Doctor> search(String name) {
+        return doctorRepo.searchByName(name);
     }
 }

@@ -14,6 +14,8 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
+    boolean existsBySsNumber(String ssNumber);
+
     // B4
     @Query("SELECT DISTINCT p FROM Patient p JOIN p.appointments a WHERE a.doctor.id = :doctorId")
     List<Patient> findPatientsOfDoctor(@Param("doctorId") Long doctorId);
