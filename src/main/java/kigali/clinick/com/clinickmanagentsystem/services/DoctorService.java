@@ -1,5 +1,6 @@
 package kigali.clinick.com.clinickmanagentsystem.services;
 
+import jakarta.transaction.Transactional;
 import kigali.clinick.com.clinickmanagentsystem.model.Doctor;
 import kigali.clinick.com.clinickmanagentsystem.model.Office;
 import kigali.clinick.com.clinickmanagentsystem.model.Specialization;
@@ -18,9 +19,13 @@ import java.util.UUID;
 public class DoctorService {
 
     private final DoctorRepository doctorRepo;
+    private final SpecializationRepository specializationRepo;
+    private final OfficeRepository officeRepo;
 
-    public DoctorService(DoctorRepository doctorRepo) {
+    public DoctorService(DoctorRepository doctorRepo, SpecializationRepository specializationRepo, OfficeRepository officeRepo) {
         this.doctorRepo = doctorRepo;
+        this.specializationRepo = specializationRepo;
+        this.officeRepo = officeRepo;
     }
 
 
@@ -63,6 +68,55 @@ public class DoctorService {
 
     public List<Doctor> findWithoutOffice() {
         return doctorRepo.findDoctorsWithoutOffice();
+    }
+
+    @Transactional
+    public String addSpecialization(Long doctorId, Long specializationId) {
+        Optional<Doctor> doctorOpt = doctorRepo.findById(doctorId);
+        if (doctorOpt.isEmpty()) {
+            return "The doctor with that id does not exist";
+        }
+
+        Optional<Specialization> specOpt = specializationRepo.findById(specializationId);
+        if (specOpt.isEmpty()) {
+            return "That specialization does not exist";
+        }
+
+        Doctor doctor = doctorOpt.get();
+        Specialization spec = specOpt.get();
+
+        if (doctor.getSpecializations().contains(spec)) {
+            return "The doctor already has that specialization";
+        }
+
+        doctor.getSpecializations().add(spec);
+        doctorRepo.save(doctor);
+        return "Specialization added to the doctor";
+    }
+
+
+    @Transactional
+    public String removeSpecialization(Long doctorId, Long specializationId) {
+        Optional<Doctor> doctorOpt = doctorRepo.findById(doctorId);
+        if (doctorOpt.isEmpty()) {
+            return "The doctor with that id does not exist";
+        }
+
+        Optional<Specialization> specOpt = specializationRepo.findById(specializationId);
+        if (specOpt.isEmpty()) {
+            return "That specialization does not exist";
+        }
+
+        Doctor doctor = doctorOpt.get();
+        Specialization spec = specOpt.get();
+
+        if (!doctor.getSpecializations().contains(spec)) {
+            return "The doctor does not have that specialization";
+        }
+
+        doctor.getSpecializations().remove(spec);
+        doctorRepo.save(doctor);
+        return "Specialization removed from the doctor";
     }
 
 }

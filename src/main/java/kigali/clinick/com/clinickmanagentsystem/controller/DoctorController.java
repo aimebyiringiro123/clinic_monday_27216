@@ -62,4 +62,37 @@ public class DoctorController {
     public List<Doctor> withoutOffice() {
         return doctorService.findWithoutOffice();
     }
+
+
+
+    @PutMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<String> addSpecialization(@PathVariable Long doctorId,
+                                                    @PathVariable Long specializationId) {
+        String message = doctorService.addSpecialization(doctorId, specializationId);
+
+        if (message.equals("The doctor with that id does not exist")
+                || message.equals("That specialization does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+        if (message.equals("The doctor already has that specialization")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
+
+
+    @DeleteMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<String> removeSpecialization(@PathVariable Long doctorId,
+                                                       @PathVariable Long specializationId) {
+        String message = doctorService.removeSpecialization(doctorId, specializationId);
+
+        if (message.equals("The doctor with that id does not exist")
+                || message.equals("That specialization does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+        if (message.equals("The doctor does not have that specialization")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
 }

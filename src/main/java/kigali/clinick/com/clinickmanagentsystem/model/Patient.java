@@ -28,6 +28,9 @@ public class Patient {
     @Column (name="last_name")
     private String lastName;
 
+    @Column(unique = true)
+    private String ssNumber;
+
     @JsonIgnore
     @OneToMany (mappedBy = "patient")
     private List<Appointment> appointments = new ArrayList<>();
