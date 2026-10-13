@@ -52,4 +52,9 @@ public class OfficeController {
     public List<Office> byOfficeNumber(@RequestParam String name) {
         return officeService.findByOfficeName(name);
     }
+
+    @GetMapping("/free")
+    public List<Office> free() {
+        return officeService.findFree();
+    }
 }

@@ -52,4 +52,8 @@ public class OfficeService {
     public List<Office> findByOfficeName(String name) {
         return officeRepo.findByName(name);
     }
+
+    public List<Office> findFree() {
+        return officeRepo.findFreeOffices();
+    }
 }
