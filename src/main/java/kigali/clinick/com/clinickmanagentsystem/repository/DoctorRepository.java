@@ -17,6 +17,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     List<Doctor> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
+    boolean existsByOfficeOfficeNumberAndIdNot(String officeNumber, Long id);
+
     // B1
     @Query("SELECT d FROM Doctor d JOIN d.specializations s WHERE LOWER(s.name) = LOWER(:name)")
     List<Doctor> findDoctorsBySpecialization(@Param("name") String name);

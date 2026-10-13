@@ -13,8 +13,10 @@ import java.util.UUID;
 public interface OfficeRepository extends JpaRepository<Office, Long> {
     List<Office> findByName(String name);
 
+    Optional<Office> findByOfficeNumber(String officeNumber);
+
     @Query("SELECT o FROM Office o " +
             "WHERE NOT EXISTS (SELECT d FROM Doctor d WHERE d.office = o) " +
-            "ORDER BY o.number")
+            "ORDER BY o.officeNumber")
     List<Office> findFreeOffices();
 }
