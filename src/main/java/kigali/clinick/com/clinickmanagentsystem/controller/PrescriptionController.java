@@ -69,4 +69,9 @@ public class PrescriptionController {
         }
         return ResponseEntity.ok(message);
     }
+
+    @GetMapping("/stats/top-medicines")
+    public List<Object[]> topMedicines() {
+        return prescriptionService.topMedicines();
+    }
 }

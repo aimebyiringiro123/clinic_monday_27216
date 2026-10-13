@@ -1,0 +1,8 @@
+###=============== Bonus 1 ================
+
+$kind: http-request
+name: http://localhost:8082/api/doctors/workload?start=2026-10-01&end=2026-10-31
+description: ""
+url: http://localhost:8082/api/prescriptions/stats/top-medicines
+method: GET
+order: 16000

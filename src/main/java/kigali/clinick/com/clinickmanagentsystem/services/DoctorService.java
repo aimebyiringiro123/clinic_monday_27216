@@ -154,4 +154,8 @@ public class DoctorService {
     public List<Doctor> search(String name) {
         return doctorRepo.searchByName(name);
     }
+
+    public List<Object[]> workload(LocalDate start, LocalDate end) {
+        return doctorRepo.findWorkload(AppointmentStatus.COMPLETED, start, end);
+    }
 }

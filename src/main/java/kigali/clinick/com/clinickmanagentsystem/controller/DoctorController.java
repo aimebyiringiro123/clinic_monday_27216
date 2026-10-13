@@ -131,4 +131,12 @@ public class DoctorController {
     public List<Doctor> search(@RequestParam String name) {
         return doctorService.search(name);
     }
+
+
+    @GetMapping("/workload")
+    public List<Object[]> workload(@RequestParam LocalDate start,
+                                   @RequestParam LocalDate end) {
+        return doctorService.workload(start, end);
+    }
 }
+
