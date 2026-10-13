@@ -5,6 +5,7 @@ import kigali.clinick.com.clinickmanagentsystem.model.Appointment;
 import kigali.clinick.com.clinickmanagentsystem.model.AppointmentStatus;
 import kigali.clinick.com.clinickmanagentsystem.services.AppointmentService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,10 +24,17 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping(value = "/save")
-    public Appointment create(@RequestBody Appointment appointment) {
-        return appointmentService.create(appointment);
+    @PostMapping("/save")
+    public ResponseEntity<String> create(@RequestBody Appointment appointment) {
+        String message = appointmentService.create(appointment);
+
+        if (message.equals("Appointment date cannot be in the past")
+                || message.equals("Appointment date is required")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
+
 
     @GetMapping(value = "/getAll")
     public List<Appointment> findAll() {
@@ -70,5 +78,40 @@ public class AppointmentController {
     @GetMapping("/stats/by-status")
     public List<Object[]> statsByStatus() {
         return appointmentService.countByStatus();
+    }
+
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> changeStatus(@PathVariable Long id,
+                                               @RequestParam AppointmentStatus status) {
+        String message = appointmentService.changeStatus(id, status);
+
+        if (message.equals("The appointment with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+        if (message.startsWith("Cannot change status")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
+
+
+
+    @PatchMapping("/{id}/reschedule")
+    public ResponseEntity<String> reschedule(@PathVariable Long id,
+                                             @RequestParam LocalDate newDate) {
+        String message = appointmentService.reschedule(id, newDate);
+
+        if (message.equals("The appointment with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+        if (message.endsWith("cannot be rescheduled")
+                || message.equals("Appointment date cannot be in the past")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        }
+        if (message.equals("Doctor is already booked on that date")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        }
+        return ResponseEntity.ok(message);
     }
 }

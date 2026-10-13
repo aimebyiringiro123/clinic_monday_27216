@@ -1,0 +1,10 @@
+### ============= A1 ===================
+$kind: http-request
+name: http://localhost:8082/api/doctors/1/specializations/1
+description: ""
+url: http://localhost:8082/api/doctors/99/specializations/1
+method: PUT
+body:
+  type: json
+  content: ""
+order: 1000

@@ -1,0 +1,8 @@
+###================ A3 =================
+
+$kind: http-request
+name: http://localhost:8082/api/offices/free
+description: ""
+url: http://localhost:8082/api/offices/free
+method: GET
+order: 3000

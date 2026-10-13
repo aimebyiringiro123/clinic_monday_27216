@@ -1,0 +1,8 @@
+### =================== A2 ================
+
+$kind: http-request
+name: http://localhost:8082/api/doctors/1/specializations/1
+description: ""
+url: http://localhost:8082/api/doctors/1/specializations/1
+method: DELETE
+order: 2000

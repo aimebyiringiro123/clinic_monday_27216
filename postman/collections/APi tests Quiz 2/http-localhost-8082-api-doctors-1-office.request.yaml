@@ -1,0 +1,12 @@
+### ============ A4 ===============
+$kind: http-request
+name: http://localhost:8082/api/doctors/1/office
+description: ""
+url: http://localhost:8082/api/doctors/1/office?officeNumber=104
+method: PATCH
+queryParams:
+  officeNumber: "104"
+body:
+  type: json
+  content: ""
+order: 4000
