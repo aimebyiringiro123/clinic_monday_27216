@@ -119,4 +119,25 @@ public class DoctorService {
         return "Specialization removed from the doctor";
     }
 
+
+    public String changeOffice(Long doctorId, String officeNumber) {
+        Optional<Doctor> doctorOpt = doctorRepo.findById(doctorId);
+        if (doctorOpt.isEmpty()) {
+            return "The doctor with that id does not exist";
+        }
+
+        Optional<Office> officeOpt = officeRepo.findByOfficeNumber(officeNumber);
+        if (officeOpt.isEmpty()) {
+            return "The office number does not exist";
+        }
+
+        if (doctorRepo.existsByOffice_OfficeNumberAndIdNot(officeNumber, doctorId)) {
+            return "That office is taken by other doctor";
+        }
+
+        Doctor doctor = doctorOpt.get();
+        doctor.setOffice(officeOpt.get());     // Doctor owns the @JoinColumn
+        doctorRepo.save(doctor);
+        return "Office changed successfully";
+    }
 }

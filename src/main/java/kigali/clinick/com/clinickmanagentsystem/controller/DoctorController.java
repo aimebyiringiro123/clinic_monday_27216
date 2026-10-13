@@ -95,4 +95,19 @@ public class DoctorController {
         }
         return ResponseEntity.ok(message);
     }
+
+    @PatchMapping("/{doctorId}/office")
+    public ResponseEntity<String> changeOffice(@PathVariable Long doctorId,
+                                               @RequestParam String officeNumber) {
+        String message = doctorService.changeOffice(doctorId, officeNumber);
+
+        if (message.equals("The doctor with that id does not exist")
+                || message.equals("The office number does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+        if (message.equals("That office is taken by other doctor")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
 }
