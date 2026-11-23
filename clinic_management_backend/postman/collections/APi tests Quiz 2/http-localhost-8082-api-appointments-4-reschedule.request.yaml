@@ -1,0 +1,12 @@
+###================ B3 ======================
+$kind: http-request
+name: http://localhost:8082/api/appointments/4/reschedule
+description: ""
+url: http://localhost:8082/api/appointments/4/reschedule?newDate=2026-11-20
+method: PATCH
+queryParams:
+  newDate: 2026-11-20
+body:
+  type: json
+  content: ""
+order: 7000

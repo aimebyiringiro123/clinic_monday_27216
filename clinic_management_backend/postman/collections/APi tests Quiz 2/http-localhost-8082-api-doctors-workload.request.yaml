@@ -1,0 +1,11 @@
+###============= Bonus 2 =======================
+
+$kind: http-request
+name: http://localhost:8082/api/doctors/workload
+description: ""
+url: http://localhost:8082/api/doctors/workload?start=2026-10-01&end=2026-10-31
+method: GET
+queryParams:
+  start: 2026-10-01
+  end: 2026-10-31
+order: 18000

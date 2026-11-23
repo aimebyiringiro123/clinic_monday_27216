@@ -1,0 +1,8 @@
+###============== Bonus 1 =================
+
+$kind: http-request
+name: http://localhost:8082/api/prescriptions/stats/top-medicines
+description: ""
+url: http://localhost:8082/api/prescriptions/stats/top-medicines
+method: GET
+order: 17000

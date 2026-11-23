@@ -1,0 +1,10 @@
+###============== D1 =================
+
+$kind: http-request
+name: http://localhost:8082/api/doctors/1/agenda
+description: ""
+url: http://localhost:8082/api/doctors/1/agenda?date=2026-10-20
+method: GET
+queryParams:
+  date: 2026-10-20
+order: 12000

@@ -1,0 +1,12 @@
+### ================ C1 ==============
+$kind: http-request
+name: http://localhost:8082/api/prescriptions/save
+description: ""
+url: http://localhost:8082/api/prescriptions/save?appointmentId=4
+method: POST
+queryParams:
+  appointmentId: "4"
+body:
+  type: json
+  content: '{"medicineName": "Amoxicillin", "dosage": "1 tablet, 3 times a day", "durationDays": 7}'
+order: 8000

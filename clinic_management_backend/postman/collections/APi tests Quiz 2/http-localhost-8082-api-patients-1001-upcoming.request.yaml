@@ -1,0 +1,7 @@
+###======= D2 ============
+$kind: http-request
+name: http://localhost:8082/api/patients/1001/upcoming
+description: ""
+url: http://localhost:8082/api/patients/1001/upcoming
+method: GET
+order: 13000

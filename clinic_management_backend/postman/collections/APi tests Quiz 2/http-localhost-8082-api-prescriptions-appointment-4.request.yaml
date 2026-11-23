@@ -1,0 +1,7 @@
+### ========== C2 ==============
+$kind: http-request
+name: http://localhost:8082/api/prescriptions/appointment/4
+description: ""
+url: http://localhost:8082/api/prescriptions/appointment/4
+method: GET
+order: 9000

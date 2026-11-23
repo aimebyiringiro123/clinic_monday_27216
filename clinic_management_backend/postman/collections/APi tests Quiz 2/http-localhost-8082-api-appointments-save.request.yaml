@@ -1,0 +1,10 @@
+### ======== B1 ==============
+$kind: http-request
+name: http://localhost:8082/api/appointments/save
+description: ""
+url: http://localhost:8082/api/appointments/save
+method: POST
+body:
+  type: json
+  content: '{"appointmentDate": "2026-10-01", "status": "SCHEDULED", "reason": "late", "patient": {"id": 1}, "doctor": {"id": 1}}'
+order: 5000

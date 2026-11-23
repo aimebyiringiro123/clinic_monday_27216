@@ -1,0 +1,12 @@
+###========= C4 ===============
+$kind: http-request
+name: |
+  http://localhost:8082/api/prescriptions/update/ 956d8fc1-159c-499d-9e50-e3aa3a7184c4
+description: ""
+url: |
+  http://localhost:8082/api/prescriptions/update/ 956d8fc1-159c-499d-9e50-e3aa3a7184c4
+method: PUT
+body:
+  type: json
+  content: '{"medicineName":"Ibuprofen","dosage":"1 tablet daily","durationDays":3}'
+order: 11000

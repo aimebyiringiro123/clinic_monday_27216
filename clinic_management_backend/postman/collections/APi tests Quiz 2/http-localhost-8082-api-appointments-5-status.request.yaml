@@ -1,0 +1,12 @@
+###============== B2 ==============
+$kind: http-request
+name: http://localhost:8082/api/appointments/5/status
+description: ""
+url: http://localhost:8082/api/appointments/5/status?status=COMPLETED
+method: PATCH
+queryParams:
+  status: COMPLETED
+body:
+  type: json
+  content: ""
+order: 6000
