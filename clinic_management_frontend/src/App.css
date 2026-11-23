@@ -1,3 +1,75 @@
+.app-shell {
+  min-height: 100vh;
+  padding-top: 68px;
+}
+
+.top-navbar {
+  position: fixed;
+  z-index: 10;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+  padding: 0 28px;
+  border-bottom: 1px solid #e2e9e8;
+  background: #fff;
+}
+
+.brand {
+  color: #147d72;
+  font-size: 18px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.navbar-caption {
+  color: #74838a;
+  font-size: 13px;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 68px auto 0 0;
+  width: 224px;
+  padding: 28px 16px;
+  border-right: 1px solid #e2e9e8;
+  background: #fff;
+}
+
+.sidebar-label {
+  margin: 0 12px 12px;
+  color: #899699;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 5px;
+}
+
+.sidebar-nav a {
+  padding: 11px 12px;
+  border-radius: 7px;
+  color: #596b70;
+  font-size: 14px;
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background: #eef6f4;
+  color: #147d72;
+}
+
+.main-content {
+  min-height: calc(100vh - 68px);
+  margin-left: 224px;
+}
+
 .offices-page {
   width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
@@ -183,6 +255,10 @@ td {
 }
 
 @media (max-width: 640px) {
+  .top-navbar { padding: 0 16px; }
+  .sidebar { width: 150px; padding: 24px 10px; }
+  .main-content { margin-left: 150px; }
+  .navbar-caption { font-size: 11px; }
   .offices-page { width: min(100% - 28px, 1100px); padding: 36px 0; }
   .page-header { align-items: flex-start; }
   .list-header { align-items: stretch; flex-direction: column; padding: 20px; }
